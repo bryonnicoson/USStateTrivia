@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#ffffff"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_state"
+            android:src="@drawable/ak"
+            android:padding="16dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_a"
+                    android:padding="16dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/btn_incorrect"
+                    android:textColor="#ffffff"
+                    android:text="North Carolina"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_b"
+                    android:padding="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/btn_correct"
+                    android:textColor="#ffffff"
+                    android:text="Alaska"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_c"
+                    android:padding="16dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/btn_incorrect"
+                    android:textColor="#ffffff"
+                    android:text="West Virginia"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_d"
+                    android:layout_margin="8dp"
+                    android:padding="16dp"
+                    android:background="@drawable/btn_incorrect"
+                    android:textColor="#ffffff"
+                    android:text="Massachusetts"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_score"
+            android:text="0"
+            android:textSize="30dp"
+            android:padding="16dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+</RelativeLayout>
