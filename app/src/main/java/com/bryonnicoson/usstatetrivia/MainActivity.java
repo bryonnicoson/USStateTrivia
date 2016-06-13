@@ -171,25 +171,6 @@ public class MainActivity extends AppCompatActivity {
         wrongs.addAll(0, generated);  // convert our set of unique distractors to an indexed list
 
         upDateQuestion(mState[card], wrongs);
-
-//            int j = 0;
-//            do {
-//                boolean duplicate = false;
-//                Random random = new Random(Double.doubleToLongBits(Math.random()));
-//                int rInt = random.nextInt(deck.size());
-//                for (int i = 0; i < wrongs.size(); i++) {
-//                    if (rInt == wrongs.get(i)){
-//                        duplicate = true;
-//                    }
-//                }
-//                if (rInt == card) {
-//                    duplicate = true;
-//                }
-//                if (duplicate == false) {
-//                    wrongs.add(deck.get(rInt));
-//                    j++;
-//                }
-//            } while( j < 3 );
     }
 
     private void upDateQuestion(State state, ArrayList<Integer> distractors) {
