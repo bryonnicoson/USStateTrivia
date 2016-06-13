@@ -2,12 +2,15 @@ package com.bryonnicoson.usstatetrivia;
 
 
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,13 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Integer> wrongs = new ArrayList<Integer>();
     private ImageView mImgState;
     private Button mButtons[] = new Button[4];
-//    private Button mBtnA;
-//    private Button mBtnB;
-//    private Button mBtnC;
-//    private Button mBtnD;
     private TextView mScore;
     private int score;
     private int attempts;
+    private int cardCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +40,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mImgState = (ImageView) findViewById(R.id.img_state);
-
-//        mBtnA = (Button) findViewById(R.id.btn_a);
-//        mBtnB = (Button) findViewById(R.id.btn_b);
-//        mBtnC = (Button) findViewById(R.id.btn_c);
-//        mBtnD = (Button) findViewById(R.id.btn_d);
 
         mButtons[0] = (Button) findViewById(R.id.btn_a);
         mButtons[1] = (Button) findViewById(R.id.btn_b);
@@ -109,8 +104,39 @@ public class MainActivity extends AppCompatActivity {
 
         // shuffle a deck and launch the quiz routine using that deck
         mQuizDeck = shuffleDeck(50);
-        quiz(mQuizDeck);
+        gameMaster();
 
+    }
+
+    private void gameMaster() {
+        if (cardCount == mQuizDeck.size()) {
+            mScore.setText("Game Over!\nFinal Score: " + score + " / " + attempts + "\nTry again?");
+            mButtons[1].setVisibility(View.GONE);
+            mButtons[3].setVisibility(View.GONE);
+            mButtons[0].setText("Yes");
+            mButtons[0].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mQuizDeck = shuffleDeck(50);
+                    score = 0;
+                    attempts = 0;
+                    cardCount = 0;
+                    mScore.setText(score + " / " + attempts);
+                    mButtons[1].setVisibility(View.VISIBLE);
+                    mButtons[3].setVisibility(View.VISIBLE);
+                    gameMaster();
+                }
+            });
+            mButtons[2].setText("No");
+            mButtons[2].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.exit(0);
+                }
+            });
+        } else {
+            quiz(mQuizDeck);
+        }
     }
 
     // make a deck the size of lngth and shuffle it
@@ -130,21 +156,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void quiz(ArrayList<Integer> deck) {
 
-                // pull the top card & remove it from the deck
-                int card = deck.get(0);
-                deck.remove(0);
-                // clone a copy of the deck for use to pull distractors
-                ArrayList<Integer> distractorDeck = (ArrayList<Integer>)deck.clone();
+        int card = deck.get(cardCount);
 
-                for (int c = 1; c < 4; c++) {
-                    Random random = new Random();
-                    int rInt = random.nextInt(distractorDeck.size());
-                    wrongs.add(distractorDeck.get(rInt));
-                    distractorDeck.remove(rInt);
+            int j = 0;
+            do {
+                boolean duplicate = false;
+                Random random = new Random();
+                int rInt = random.nextInt(deck.size());
+                for (int inc = 0; inc < wrongs.size(); inc++) {
+                    if (rInt == wrongs.get(inc)){
+                        duplicate = true;
+                    }
+                    if (rInt == card) {
+                        duplicate = true;
+                    }
                 }
+                if (!duplicate) {
+                    wrongs.add(deck.get(rInt));
+                    j++;
+                }
+            } while( j < 3 );
 
-                // call method to present question
-                upDateQuestion(mState[card], wrongs);
+            upDateQuestion(mState[card], wrongs);
 
     }
 
@@ -192,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
             score++;
         }
         mScore.setText(Integer.toString(score) + " / " + Integer.toString(attempts));
+        cardCount++;
+        gameMaster();
     }
 
 }
