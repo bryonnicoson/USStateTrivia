@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Random;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -158,27 +160,36 @@ public class MainActivity extends AppCompatActivity {
 
         int card = deck.get(cardCount);
 
-            int j = 0;
-            do {
-                boolean duplicate = false;
-                Random random = new Random();
-                int rInt = random.nextInt(deck.size());
-                for (int inc = 0; inc < wrongs.size(); inc++) {
-                    if (rInt == wrongs.get(inc)){
-                        duplicate = true;
-                    }
-                    if (rInt == card) {
-                        duplicate = true;
-                    }
-                }
-                if (!duplicate) {
-                    wrongs.add(deck.get(rInt));
-                    j++;
-                }
-            } while( j < 3 );
+        Random rng = new Random(Double.doubleToLongBits(Math.random()));
+        Set<Integer> generated = new LinkedHashSet<Integer>();
+        while (generated.size() < 3) {
+            Integer next = rng.nextInt(deck.size());
+            if (next != card) {
+                generated.add(next);
+            }
+        }
+        wrongs.addAll(0, generated);  // convert our set of unique distractors to an indexed list
 
-            upDateQuestion(mState[card], wrongs);
+        upDateQuestion(mState[card], wrongs);
 
+//            int j = 0;
+//            do {
+//                boolean duplicate = false;
+//                Random random = new Random(Double.doubleToLongBits(Math.random()));
+//                int rInt = random.nextInt(deck.size());
+//                for (int i = 0; i < wrongs.size(); i++) {
+//                    if (rInt == wrongs.get(i)){
+//                        duplicate = true;
+//                    }
+//                }
+//                if (rInt == card) {
+//                    duplicate = true;
+//                }
+//                if (duplicate == false) {
+//                    wrongs.add(deck.get(rInt));
+//                    j++;
+//                }
+//            } while( j < 3 );
     }
 
     private void upDateQuestion(State state, ArrayList<Integer> distractors) {
